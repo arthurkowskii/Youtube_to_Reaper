@@ -30,3 +30,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Private files
+.claude
+CLAUDE.md
