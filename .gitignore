@@ -1,0 +1,32 @@
+# Temporary files
+*.tmp
+*.temp
+*.vbs
+*.bat
+
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+*.db
+
+# Audio files (downloaded content)
+*.wav
+*.mp3
+*.mp4
+*.m4a
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

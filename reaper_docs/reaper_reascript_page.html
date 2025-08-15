@@ -1,0 +1,403 @@
+
+<!-- saved from url=(0049)https://www.reaper.fm/sdk/reascript/reascript.php -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>REAPER | ReaScript</title>
+
+<link href="./reaper_reascript_page_files/css" rel="stylesheet" type="text/css">
+<link href="./reaper_reascript_page_files/main.css" rel="stylesheet" type="text/css">
+
+<script>
+function showHeaderMenu(nm) {
+  var d = document.getElementById(nm);
+  if (d.style.display != "inline") d.style.display = "inline";
+  else d.style.display = "none";
+  return false;
+}
+
+var g_onload = function() {
+
+
+};
+</script>
+
+
+</head>
+<body onload="g_onload();">
+
+<div class="black">
+  <div class="strip">
+
+    <div style="width:320px; float:left; text-align:right; margin-top:28px;">
+      <div class="hdrlink black">
+        <a href="https://www.reaper.fm/download.php">
+        <div class="hdrtop green">DOWNLOAD REAPER</div>
+        <div class="hdrbottom">Version 7.43: August 13, 2025</div>
+        </a>
+      </div>
+      <div style="height:11px;"></div>
+      <div class="hdrlink black">
+        <a href="https://www.reaper.fm/purchase.php">
+        <div class="hdrtop">PURCHASE</div>
+        <div class="hdrbottom">&nbsp;</div>
+        </a>
+      </div>
+      <div style="height:11px;"></div>
+      <div class="hdrlink black">
+        <a href="https://www.reaper.fm/userguide.php">
+        <div class="hdrtop">DOWNLOAD USER GUIDE</div>
+        <div class="hdrbottom">&nbsp;</div>
+        </a>
+      </div>
+    </div>
+
+    <div style="width:360px; float:left; overflow:hidden;">
+      <center><a href="https://www.reaper.fm/index.php"><img src="./reaper_reascript_page_files/logo_sc.jpg"></a></center>
+    </div>
+  
+    <div style="width:320px; float:right; text-align:left; margin-top:28px;">
+      <div class="hdrlink black">
+        <a href="https://www.reaper.fm/sdk/reascript/reascript.php#" onclick="return showHeaderMenu(&#39;resourcesmenu&#39;);">
+        <div class="hdrtop">RESOURCES</div>
+        </a>
+        <div style="position:relative">
+          <div id="resourcesmenu" class="headermenu dark">
+            <a href="https://www.reaper.fm/langpack">Language Packs</a>
+            <br><a href="https://stash.reaper.fm/tag/Themes" target="_blank" rel="noopener noreferrer">Themes</a>
+            <br><a href="https://stash.reaper.fm/" target="_blank" rel="noopener noreferrer">REAPER Stash</a>
+            <br><a href="http://www.sws-extension.org/" target="_blank" rel="noopener noreferrer">SWS REAPER Extension</a>
+            <br><a href="https://reapack.com/" target="_blank" rel="noopener noreferrer">ReaPack Package Manager</a>
+            <br><a href="http://reaperblog.net/" target="_blank" rel="noopener noreferrer">The (unofficial) REAPER Blog</a>
+          </div>
+        </div>
+        <a href="https://www.reaper.fm/sdk/reascript/reascript.php#" onclick="return showHeaderMenu(&#39;resourcesmenu&#39;);">
+        <div class="hdrbottom">&nbsp;</div>
+        </a>
+      </div>
+      <div style="height:11px;"></div>
+      <div class="hdrlink black">
+        <a href="https://www.reaper.fm/videos.php">
+        <div class="hdrtop">VIDEOS</div>
+        <div class="hdrbottom">&nbsp;</div>
+        </a>
+      </div>
+      <div style="height:11px;"></div>
+      <div class="hdrlink black">
+        <a href="https://forum.cockos.com/forumdisplay.php?f=20">
+        <div class="hdrtop">FORUM</div>
+        <div class="hdrbottom">&nbsp;</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="light"><div class="light strip"><div class="heading">ReaScript</div>
+<li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_intro">Introduction</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_req">Requirements</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_doc">ReaScript Documentation</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_run">Running ReaScripts</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_edit">Editing and Debugging</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_basic">Getting started</a>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_adv">Advanced</a>
+<br><br>
+<!-- named anchors on a line with <hr> will be used to construct table of contents -->
+<!-- the <hr>, the anchor, and the plaintext subject must all be on the same line -->
+
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_intro">Introduction</a></b></font>
+<br><br>
+ReaScript is a feature that allows you to edit, run and debug scripts within REAPER.
+Scripts are simple text files from which you can call any REAPER action, and also call 
+back into most of the REAPER API functions (the same API used by compiled REAPER plug-ins and extensions).
+ReaScript can be used to create anything from advanced macros to full-featured REAPER extensions.
+<br><br>
+Supported scripting languages:<div style="clear:both; overflow:auto; margin-top:20px;">
+<div style="width:320px; float:left;">
+<b>EEL2</b><br>
+A language developed in-house (but <a href="http://www.cockos.com/wdl">open source</a>) which has some similarities to C and JavaScript. EEL is also used to write <a href="https://www.reaper.fm/sdk/js/js.php">JSFX</a> plug-ins, <a href="http://www.cockos.com/oscii-bot">OSCII-bot</a> scripts, and video processing effects in REAPER.
+EEL offers high run-time performance. It supports basic UI management (dedicated script window, docking, context menus, mouse input, etc) and graphics manipulation (drawing primitives, loading image files, etc). EEL is embedded within REAPER and requires no additional downloads or settings.
+</div>
+<div style="width:320px; float:left; margin-left:20px;">
+<b>Lua (v5.4)</b><br>
+A popular scripting language. Lua is probably easier to learn and use than EEL or Python, and offers good performance. It supports the same UI and graphic features as EEL. As a general-use scripting language, Lua also benefits from  third-party resources, libraries, tutorials, and code examples. Lua is embedded within REAPER and requires no additional downloads or settings. Note that REAPER v6.x and earlier used Lua v5.3.
+</div>
+<div style="width:320px; float:right; margin-left:20px;">
+<b>Python (v2.7-v3.x)</b><br>
+Another popular scripting language. Python must be downloaded and installed separately (see <a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_req_py">requirements</a>) and as such, will never be as portable between users as EEL or Lua. Within REAPER, Python performance is not as good as EEL or Lua, and does not offer any UI or graphic features. However, Python does benefit from a vast number of third-party resources, libraries, tutorials, and code examples.<br>
+</div>
+</div>
+<!--
+Note: REAPER on Windows formerly supported Perl scripts as well, but Perl support was removed
+in REAPER version 4.14.  ReaScript Perl will be reinstated when/if the Perl
+<a href="http://gitorious.org/perl-ctypes" target="_blank" rel="noopener noreferrer">ctypes project</a> is complete.<br>
+-->
+<br>
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_req">Requirements</a></b></font>
+<br><br>
+EEL and Lua are embedded within REAPER and will work automatically.<br>
+<br>
+<font size="2"><b><a name="reascript_req_py">Python requirements</a></b></font><br>
+You must have Python installed on your computer and enabled in REAPER preferences 
+(Options &gt; Preferences &gt; Plug-Ins &gt; ReaScript). ReaScript should work with any version of Python between 2.7 and the current 3.x release. OS X normally comes with Python already installed.  If you don't already have Python, it is available as a free download for Windows or Mac from multiple sources. For 32-bit REAPER, you need 32-bit Python (regardless of the operating system). For 64-bit REAPER, you need 64-bit Python. A list of Python distributions is 
+<a href="http://www.python.org/download/" target="_blank" rel="noopener noreferrer">here.</a><br><br>
+Once Python is installed, REAPER should automatically detect it, and ReaScript will work. If REAPER does not detect Python, you can enter the Python install directory manually in REAPER preferences.
+<br><br>
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_doc">ReaScript Documentation</a></b></font>
+<br><br>
+ReaScript documentation is <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html">available online</a>
+, but the API is extended frequently, and up-to-date
+documentation can be generated by REAPER itself.<br><br>
+From within REAPER, under the Help menu, choose "ReaScript documentation".
+This will open a web page with a complete list of <a href="https://www.reaper.fm/sdk/plugin/plugin.php">REAPER Extension API</a> functions that can be called from ReaScript. 
+This help page will also explain the basics of how to call API functions and how to import functions/modules from other ReaScripts, and list additional REAPER-specific built-in functions that are available for each scripting language.
+<br><br>
+<div style="clear:both; overflow:auto;">
+<div style="float:left; width:320px;">
+  <font size="2"><b><a name="reascript_doc_eel">EEL documentation</a></b></font><br>
+  The <a href="https://www.cockos.com/EEL2/">EEL2 language reference guide</a> is a good place to read about basic EEL2 scripting. REAPER's EEL2 implementation goes beyond those basics, though, including the addition of file I/O and network functions, which are described in the REAPER-generated ReaScript documentation, within the list of <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_list" target="_blank">EEL built-in functions</a>
+  (see <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_fopen" target="_blank">fopen()</a>, <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_tcp_connect" target="_blank">tcp_connect()</a>, <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_list" target="_blank">et al</a>)
+</div>
+<div style="float:left; width:320px; margin-left:20px;">
+  <font size="2"><b><a name="reascript_doc_lua">Lua documentation</a></b></font><br>
+  The Lua v5.4 reference manual is available <a href="http://www.lua.org/manual/5.4/" target="_blank" rel="noopener noreferrer">here.</a> 
+  <br><br>
+  REAPER-specific functions (mostly UI/graphic functions) are also described in the REAPER-generated ReaScript documentation, within the <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#lua_list" target="_blank">list of Lua built-in functions</a>.
+</div>
+<div style="float:right; width: 320px; margin-left:20px;">
+  <font size="2"><b><a name="reascript_doc_py">Python documentation</a></b></font><br>
+  There is extensive online documentation for 
+  <a href="http://docs.python.org/2/" target="_blank" rel="noopener noreferrer">Python 2</a> and 
+  <a href="http://docs.python.org/3/" target="_blank" rel="noopener noreferrer">Python 3</a>.
+</div>
+</div>
+<br><br>
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_run">Running ReaScripts</a></b></font>
+<br><br>
+You will need to either write a new script, or load a script from another user.
+Scripts can be placed anywhere on disk, but it is convenient to keep them all in the
+REAPER/Scripts resource directory. To find the resource directory: Options &gt; Show resource path in explorer/finder.
+<br><br>
+To create a new script, show the Actions window (bound to the ? key by default), and click
+ReaScript: "New...". You will be prompted for the location to save the script (the default 
+location is the recommended REAPER/Scripts resource directory).
+The type of script will be deduced from the file extension you enter (.eel, .lua, or .py).
+<br><br>
+To load a script, click ReaScript: "Load..." in the Actions window, and select the script file 
+you want to add to the action list (multiple selection is allowed).
+<br><br>
+Once you have written or loaded a script, it will be added to the action list, and you can treat the script just like any custom action: 
+run it from the Actions window ("Run" button, or double-click), bind it to a key shortcut, 
+mouse wheel, MIDI/OSC controller, or toolbar button. You can get binding information at
+runtime too, details <a href="https://www.reaper.fm/sdk/reascript/reascript.php#reascript_adv_bind">here</a>.
+<br><br>
+ReaScripts can also be run à la carte, via the actions "ReaScript: run..." and 
+"ReaScript: run last script".
+<br><br>
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_edit">Editing and Debugging</a></b></font>
+<br><br>
+To edit and/or debug a script, select it the Actions window, and click ReaScript: "Edit...".<br>
+The ReaScript Integrated Developement Environment (ReaScript IDE) will open:
+<br><br>
+<img src="./reaper_reascript_page_files/reascript_ide.png" alt="REAPER ReaScript IDE">
+<br><br>
+The right pane shows both built-in and user defined variables, which is handy for debugging.
+<br><br><hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_basic">Getting started</a></b></font>
+<br><br>
+Just try it. Experiment!
+<br><br>
+ReaScript is mostly fault-tolerant. Most programming mistakes will give error messages that will help you fix the mistake. While it is still possible to crash REAPER with scripts, you shouldn't be able to do any permanent damage -- just be sure to save any important projects before testing ReaScripts.
+<br><br>
+A very simple way to test ReaScript is by calling the API test function:
+<div style="clear:both; overflow:auto; margin-top:20px; margin-bottom:20px;">
+<div style="float:left; width:320px;">
+<b>EEL2:</b><br>
+<code>APITest();</code>
+</div>
+<div style="float:left; width:320px; margin-left:20px;">
+<b>Lua:</b><br>
+<code>reaper.APITest()</code>
+</div>
+<div style="float:left; width:320px; margin-left:20px;">
+<b>Python:</b><br>
+<code>RPR_APITest()</code>
+</div>
+</div>
+
+When you run this script, you should see a window that says "Test OK".
+<br><br>
+Common reasons for scripts failing are:
+<ul>
+<li>Syntax error: typo, missing newline, incorrect indentation in Python, etc.
+</li><li>Unknown extension API. Perhaps the script was written against a newer version of REAPER.
+</li><li>Incorrect use of the Extension API. Verify how the function parameters and return value should be used in the REAPER-generated ReaScript documentation.
+</li><li>Lua: invalid "objects". Check variables for <code>nil</code> before passing to functions.
+</li><li>Python: REAPER cannot find the Python library. Is the proper 32/64-bit Python installed? Is it enabled in Preferences?
+</li></ul>
+REAPER should show an error message when a script fails, which will point 
+to the faulty line, when possible.
+<br><br>
+To call any REAPER built-in action from ReaScript, use <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#Main_OnCommand" target="_blank">Main_OnCommand</a>(actionID, 0). Find the ID of a given action by opening the 
+Actions window, and right-clicking it: "Copy selected action ID". For example, 
+from ReaScript/EEL you would call the REAPER action "Item: Split item under mouse cursor" like this:
+<br>
+<code>Main_OnCommand(40746, 0);</code>
+<br><br>
+<hr><font size="-2"><a href="https://www.reaper.fm/sdk/reascript/reascript.php#">top</a></font>&nbsp;&nbsp;<font size="3"><b><a name="reascript_adv">Advanced</a></b></font>
+<br><br>
+<font size="2"><b><a name="reascript_adv_defer">Deferred scripts</a></b></font><br>
+By default, ReaScripts are run on-demand and terminate after execution. However, you can write scripts that run in the background until terminated by the user. This can be used to write scripts that react to events, such as the current playback position, a track selection change, user input, etc. See 
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_defer" target="_blank">defer()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#lua_defer" target="_blank">reaper.defer()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#python_defer" target="_blank">RPR_defer()</a> 
+and 
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_atexit" target="_blank">atexit()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#lua_atexit" target="_blank">reaper.atexit()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#python_atexit" target="_blank">RPR_atexit()</a>
+ in the REAPER-generated ReaScript documentation.
+<br><br>
+A deferred script with a user interface window will run modelessly, and can be docked, just like a built-in REAPER window.<br><br>
+The list of scripts that are currently running in the background is available in the 
+Actions menu. To stop a deferred script, or to run a new instance, click the script 
+in this list. Note that no undo point is automatically added when running/terminating deferred scripts, unless 
+you create one explicitly.
+<br><br>
+<font size="2"><b><a name="reascript_adv_persist">Persistence</a></b></font><br>
+ReaScripts can keep persistent data by using standard file functions, but the 
+following API functions are recommended for portability:
+<ul>
+<li><a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#SetExtState" target="_blank">SetExtState()</a> and <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#GetExtState" target="_blank">GetExtState()</a> allow ReaScripts to set and
+get key/value pairs that will persist between ReaScripts, and optionally persist between 
+REAPER instances as well. For example, a Python module called "utility" might
+want to remember that some flag is set:
+<code><pre>RPR_SetExtState("utility", "someflag", "2", True)
+val=RPR_GetExtState("utility", "someflag") # even if called after REAPER is closed and reopened, val will be equal to "2"
+</pre></code>
+</li><li><a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#SetProjExtState" target="_blank">SetProjExtState()</a> and <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#GetProjExtState" target="_blank">GetProjExtState()</a> allow ReaScripts to save data within the project RPP file.
+</li></ul>
+<br>
+<font size="2"><b><a name="reascript_adv_undo">Undo</a></b></font><br>
+Undo points are created for ReaScripts by default. To prevent the automatic addition of an undo point, a script can call 
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_defer" target="_blank">defer()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#lua_defer" target="_blank">reaper.defer()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#python_defer" target="_blank">RPR_defer()</a>.
+<p>
+There are also API functions for manually creating undo points, as well as API functions to Undo and Redo previous points. 
+</p><p>
+The best way to manually create an undo point for your script is to call
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#Undo_BeginBlock" target="_blank">Undo_BeginBlock()</a> before most of your code, and
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#Undo_EndBlock" target="_blank">Undo_EndBlock()</a> after your code finishes.
+</p><ul>
+<li>These functions operate on the active project only (if multiple tabs are open) -- do not switch project tabs from your code while in an Undo block.
+</li><li>You must always pair <code>Undo_BeginBlock</code> with <code>Undo_EndBlock</code>.  If you call <code>Undo_BeginBlock</code> and then fail to call <code>Undo_EndBlock</code>, an undo block will be left open, which may cause undesired undo behaviors.
+</li><li>The final parameter of <code>Undo_EndBlock</code> is a bitmask of what you would like to add to the undo state. If you are simply calling other actions
+(via <code>Main_OnCommand</code> or similar functions), this should be 0. If you modify the state of the project directly, it's safest to set the bitmask
+to -1. A more specific combination of flags  may be an optimization, depending on what your script is doing.
+</li><li>Always give the "desc" parameter of <code>Undo_EndBlock</code> a valid (non-empty) descriptive string.
+</li></ul>
+<div style="clear:both; overflow:auto;">
+<div style="float:left; width:600px;">
+Lua example:
+<code><pre>reaper.Undo_BeginBlock()
+m = reaper.GetMasterTrack(0)
+reaper.TrackFX_GetByName(m, "ReaEQ", 1)
+reaper.Undo_EndBlock("Add ReaEQ FX to the master track", -1)
+</pre></code>
+</div>
+<div style="float:right;width:200px;">
+<font size="-3">undo flags for Undo_EndBlock() et al: <ul>
+<li>1: track configurations
+</li><li>2: track FX
+</li><li>4: track items
+</li><li>8: project states
+</li><li>16: freeze states
+</li></ul>
+</font>
+</div>
+</div>
+<br>
+<font size="2"><b><a name="reascript_adv_bind">Action binding</a></b></font><br>
+You can query various contextual information about the script, at runtime, using
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_get_action_context" target="_blank">get_action_context()</a>/
+<a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#lua_get_action_context" target="_blank">reaper.get_action_context()</a> (sorry, no Python support)
+. You can retrieve MIDI/OSC/mouse-wheel/trackpad 
+input values when the script is bound to MIDI/OSC controllers (both absolute and relative 
+modes are supported), or to the mouse-wheel/trackpad.
+<br><br>
+Here is a basic Lua example which monitors received MIDI/OSC input values:
+<code><pre>function run()
+  is_new,name,sec,cmd,rel,res,val = reaper.get_action_context()
+  if is_new then
+    reaper.ShowConsoleMsg(name .. "\nrel: " .. rel .. "\nres: " .. res .. "\nval = " .. val .. "\n")
+  end
+  reaper.defer(run)
+end
+
+function onexit()
+  reaper.ShowConsoleMsg("&lt;-----\n")
+end
+
+reaper.defer(run)
+reaper.atexit(onexit)
+</pre></code>
+<br>
+<font size="2"><b><a name="reascript_adv_tgl">Toggle state</a></b></font><br>
+ReaScripts can have on/off states. In REAPER v7.0+ they can control script-related options including the on/off toggle state via the <a href="https://www.reaper.fm/sdk/reascript/reascripthelp.html#eel_set_action_options">set_action_options()</a> API. 
+<br><hr><br>
+For more help on ReaScript, to download script examples, to report bugs, 
+to request additional API functions, to share ReaScripts, or just to discuss 
+the possibilities, please use the
+<a href="http://forum.cockos.com/forumdisplay.php?f=3" target="_blank" rel="noopener noreferrer">REAPER ReaScript Forum.</a>
+
+
+
+
+<br><br></li></div></div><div class="foot black">
+<div class="black strip" style="margin-bottom:20px;">
+<br>
+
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;<a href="https://www.reaper.fm/index.php">Home</a></div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.cockos.com/company.php" target="_blank" rel="noopener noreferrer">Company</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/reviews.php">Reviews</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/radio.php">Radio</a><br>
+</div>
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;<a href="https://www.reaper.fm/about.php">About</a></div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/about.php#technical">Technical</a><br>
+</div>
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;<a href="https://www.reaper.fm/download.php">Download</a></div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/download-old.php">Old Versions</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/langpack">Language Packs</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/reaplugs/">ReaPlugs</a><br>
+</div>
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;<a href="https://www.reaper.fm/purchase.php">Purchase</a></div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/license-lookup/index.php">Lost License</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/dist-agreement.php">Distribution</a><br>
+</div>
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;Developer</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/walter/">Theme Development</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/cursors/cursors.php">Custom Cursors</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/js/js.php">JSFX Programming</a><br>
+&nbsp;&nbsp;•&nbsp;<a href="https://www.reaper.fm/sdk/reascript/reascript.php">ReaScript</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/plugin/plugin.php">Extensions SDK</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/vst/vst_ext.php">Extensions to VST SDK</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/sdk/osc/osc.php">OSC</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/langpack#langpack_dev">Language Pack Template</a><br>
+</div>
+<div class="footitem">
+<div class="foot">&nbsp;&nbsp;Resources</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/userguide.php">User Guide</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.reaper.fm/videos.php">Videos</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://stash.reaper.fm/" target="_blank" rel="noopener noreferrer">Stash</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://forum.cockos.com/forumdisplay.php?f=20">Forum</a><br>
+</div>
+
+</div>
+</div>
+
+
+</body></html>
