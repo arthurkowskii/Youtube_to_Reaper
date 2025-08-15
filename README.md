@@ -15,22 +15,22 @@ A REAPER ReaScript that downloads audio from YouTube URLs and imports them direc
 ## Requirements
 
 - **REAPER 7.0+** (tested on 7.42)
-- **SWS Extension** (for clipboard access)
-- **yt-dlp** (YouTube downloader)
-- **ffmpeg** (audio processing)
 
 ## Installation
 
-1. Install required tools:
-   ```bash
-   winget install yt-dlp.yt-dlp
-   winget install Gyan.FFmpeg
-   ```
+### For Windows Users (Recommended)
+1. Download and run `YouTube_to_NewTrack_Setup.exe` from the releases
+   - Automatically installs yt-dlp and ffmpeg dependencies
+   - Installs the ReaScript in REAPER
+   - Checks for and prompts to install SWS Extension if needed
+   - Sets up everything you need in one click
 
-2. Install [SWS Extension](https://sws-extension.org/) for REAPER
-
-3. Download `YouTube_to_NewTrack.lua` and load it in REAPER:
+### Manual Installation
+For advanced users or other platforms:
+1. Install [SWS Extension](https://sws-extension.org/) for REAPER
+2. Download `YouTube_to_NewTrack.lua` and load it in REAPER:
    - Actions → Show Action List → ReaScript → Load
+3. Ensure yt-dlp and ffmpeg are available in your system PATH
 
 ## Usage
 
