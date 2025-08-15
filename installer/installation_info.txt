@@ -1,0 +1,51 @@
+YouTube to New Track for REAPER - Installation Information
+
+WHAT THIS INSTALLER WILL DO:
+==========================
+
+1. SCRIPT INSTALLATION
+   - Install the YouTube to New Track script to your REAPER Scripts directory
+   - The script will be available in REAPER's Action List
+
+2. DEPENDENCY MANAGEMENT (Optional)
+   - Download and install yt-dlp (YouTube downloader)
+   - Download and install FFmpeg (audio processing)
+   - Both tools will be installed to the application directory
+
+3. SWS EXTENSION CHECK
+   - Check if SWS Extension is installed (required for clipboard functionality)
+   - Prompt to download SWS if not found
+
+SYSTEM REQUIREMENTS:
+==================
+- Windows 10/11 (64-bit)
+- REAPER 7.0 or later
+- Internet connection (for downloading dependencies)
+- Administrator privileges (for installation)
+
+WHAT YOU'LL GET:
+===============
+- Professional REAPER script for importing YouTube audio
+- Real-time progress monitoring during downloads
+- Automatic temp file cleanup
+- Full integration with REAPER's undo system
+- Clipboard URL detection (requires SWS)
+
+AFTER INSTALLATION:
+==================
+1. Open REAPER
+2. Go to Actions → Show Action List
+3. Search for "YouTube to New Track"
+4. Assign a keyboard shortcut if desired
+5. Run the script and follow the prompts
+
+LEGAL NOTICE:
+============
+This tool is for personal use only. Ensure you have permission to download
+content from YouTube or any other platform. Respect copyright laws and
+YouTube's Terms of Service.
+
+For support and updates, visit:
+https://github.com/arthurkowskii/youtube_to_reaper
+
+Thank you for choosing YouTube to New Track!
