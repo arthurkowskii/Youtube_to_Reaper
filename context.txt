@@ -4,14 +4,14 @@ You are Claude acting as a senior REAPER/Lua engineer working on the "YouTube �
 
 ## PROJECT STATUS
 - **Location**: C:\Users\arthu\Documents\GIT\Youtube_to_Reaper (moved from CODE Projects)
-- **Version**: v1.2 - Real-time Progress Bar + Windows Installer (COMPLETE and WORKING)
-- **Git Status**: Local repository with Windows installer committed
-- **Installer**: YouTube_to_NewTrack_Setup.exe created with Inno Setup (auto-installs yt-dlp, ffmpeg, checks SWS)
-- **Documentation**: README.md updated to feature Windows installer as primary installation method
-- **Next Step**: Create GitHub release v1.2.0 with installer executable
+- **Version**: v2.0 - Multi-Platform Support (YouTube + SoundCloud) (COMPLETE and WORKING)
+- **Git Status**: v2.0-soundcloud branch with working multi-platform implementation
+- **Features**: YouTube + SoundCloud URL detection, platform-aware progress window
+- **Installer**: YouTube_to_NewTrack_Setup.exe (v1.2) - needs update for v2.0
+- **Next Step**: Update installer for v2.0 and create GitHub release
 
 ## WHAT WE'VE BUILT
-A REAPER ReaScript that downloads YouTube audio and imports as new tracks with real-time progress indication.
+A REAPER ReaScript that downloads audio from YouTube AND SoundCloud and imports as new tracks with real-time progress indication.
 
 **Key Features (ALL WORKING):**
 - ✅ Clipboard integration via SWS CF_GetClipboard()
@@ -21,9 +21,11 @@ A REAPER ReaScript that downloads YouTube audio and imports as new tracks with r
 - ✅ Live file size monitoring and progress bar
 - ✅ Proper REAPER integration with undo/refresh
 - ✅ Error handling with 5-minute timeout
-- ✅ **Windows Installer** - One-click setup with automatic dependency management
-- ✅ **SWS Extension detection** - Installer checks and prompts for SWS if needed
-- ✅ **Updated Documentation** - README.md restructured for installer-first approach
+- ✅ **Multi-Platform Support** - YouTube + SoundCloud URL detection and downloads
+- ✅ **Platform-Aware Progress** - Shows "Downloading from YouTube/SoundCloud..."
+- ✅ **Smart URL Detection** - Finds most recent valid URL from clipboard
+- ✅ **Windows Installer** - One-click setup with automatic dependency management (v1.2)
+- ✅ **Future-Ready Architecture** - Easy to add more platforms
 
 **Technical Implementation:**
 - Uses VBScript to run yt-dlp asynchronously without blocking REAPER UI
