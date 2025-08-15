@@ -144,14 +144,14 @@ output_file = temp_dir .. "\\youtube_audio_" .. os.time() .. ".wav"
 -- Create VBScript for truly asynchronous execution
 local vbs_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".vbs"
 local log_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".log"
-local cmd = string.format('"%s" -f bestaudio --extract-audio --audio-format wav --ffmpeg-location "%s" -o "%s" "%s" 2>&1',
+local cmd = string.format('"%s" -f bestaudio --extract-audio --audio-format wav --ffmpeg-location "%s" -o "%s" "%s"',
     ytdlp_path, ffmpeg_path, output_file, url)
 
--- Write VBScript that runs the command without blocking and captures output
+-- Write VBScript that runs the command without blocking
 local vbs_content = string.format([[
 Set WshShell = CreateObject("WScript.Shell")
-WshShell.Run "cmd /c %s > ""%s""", 0, False
-]], cmd:gsub('"', '""'), log_file) -- Escape quotes for VBScript
+WshShell.Run "%s", 0, False
+]], cmd:gsub('"', '""')) -- Escape quotes for VBScript
 
 local vbs = io.open(vbs_file, "w")
 if vbs then
@@ -192,23 +192,8 @@ local function monitor_progress()
         end
     end
     
-    -- Check log file for errors and restrictions
-    if reaper.file_exists(log_file) and restriction_warning == "" then
-        local log_handle = io.open(log_file, "r")
-        if log_handle then
-            local log_content = log_handle:read("*all")
-            log_handle:close()
-            
-            -- Check for SoundCloud Go+ restrictions
-            if platform == "SoundCloud" and (
-                log_content:match("preview") or 
-                log_content:match("Go%+") or
-                log_content:match("30") and log_content:match("second")
-            ) then
-                restriction_warning = "SoundCloud Go+ - Preview only (30s)"
-            end
-        end
-    end
+    -- TODO: Re-implement log file monitoring for Go+ detection
+    -- Currently disabled to fix VBScript execution issues
     
     local elapsed = reaper.time_precise() - start_time
     progress_step = progress_step + 1
@@ -313,11 +298,8 @@ function download_complete()
     gfx.drawstr("Download Complete! Importing to REAPER...")
     gfx.update()
     
-    -- Clean up VBScript and log files
+    -- Clean up VBScript file
     os.remove(vbs_file)
-    if reaper.file_exists(log_file) then
-        os.remove(log_file)
-    end
     
     -- Import the audio
     reaper.ShowConsoleMsg("✓ Download complete, importing to new track...\n")
@@ -359,9 +341,6 @@ function download_failed(reason)
     -- Clean up
     if reaper.file_exists(vbs_file) then
         os.remove(vbs_file)
-    end
-    if reaper.file_exists(log_file) then
-        os.remove(log_file)
     end
     if reaper.file_exists(output_file) then
         os.remove(output_file)
