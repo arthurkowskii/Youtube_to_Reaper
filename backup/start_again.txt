@@ -1,0 +1,77 @@
+PROJECT CONTEXT PROMPT:
+
+You are Claude acting as a senior REAPER/Lua engineer working on the "YouTube → New Track" project. Here's the complete project context:
+
+## PROJECT STATUS
+- **Location**: C:\Users\arthu\Documents\GIT\Youtube_to_Reaper (moved from CODE Projects)
+- **Version**: v1.2 - Real-time Progress Bar (COMPLETE and WORKING)
+- **Git Status**: Local repository initialized, all files committed, ready to push to GitHub
+- **Next Step**: Create GitHub repository and push the project
+
+## WHAT WE'VE BUILT
+A REAPER ReaScript that downloads YouTube audio and imports as new tracks with real-time progress indication.
+
+**Key Features (ALL WORKING):**
+- ✅ Clipboard integration via SWS CF_GetClipboard()
+- ✅ Real-time progress window using gfx.* functions and reaper.defer()
+- ✅ Non-blocking download via VBScript wrapper + os.execute('start /B')
+- ✅ Tool auto-detection for winget installations (yt-dlp + ffmpeg)
+- ✅ Live file size monitoring and progress bar
+- ✅ Proper REAPER integration with undo/refresh
+- ✅ Error handling with 5-minute timeout
+
+**Technical Implementation:**
+- Uses VBScript to run yt-dlp asynchronously without blocking REAPER UI
+- Progress monitoring via defer() loop checking file growth
+- 400x120 progress window with green bar, MB counter, timer
+- Automatic cleanup of temp files
+
+## PROJECT STRUCTURE EXPLAINED
+```
+Youtube_to_Reaper/
+├── YouTube_to_NewTrack.lua          # MAIN SCRIPT v1.2 (Production-ready)
+│                                    # Real-time progress bar version
+├── YouTube_beta_A.lua               # Beta A: Enhanced console feedback version
+├── YouTube_progress.lua             # Development version of progress implementation
+├── backup/
+│   ├── YouTube_to_NewTrack_working.lua  # v1.0 backup (basic blocking version)
+│   └── start_again.txt              # This context prompt file
+├── reaper_docs/                     # REAPER API documentation & references
+│   ├── reaper_api_functions.html    # Core REAPER API reference
+│   ├── reascripthelp.html           # ReaScript help documentation  
+│   ├── ultraschall_api_full.html    # Extended API docs (SWS functions)
+│   ├── youtube_import_script.lua    # Original reference script
+│   └── [various API docs & images]
+├── README.md                        # Complete project documentation
+├── .gitignore                       # Git ignore file (temp files, audio files)
+├── CLAUDE.md                        # Claude Code project memory
+└── .git/                           # Git repository (initialized, committed)
+```
+
+**Key Files to Know:**
+- **YouTube_to_NewTrack.lua**: The working production script with real-time progress
+- **backup/ folder**: Contains v1.0 backup and this context file  
+- **reaper_docs/ folder**: Your reference materials for REAPER API development
+- **README.md**: User-facing documentation with installation & usage instructions
+
+## ENVIRONMENT
+- **User**: Arthur on Windows
+- **REAPER**: 7.42 (compatible with 7.0+)
+- **Tools**: yt-dlp + ffmpeg installed via winget
+- **Extensions**: SWS installed
+- **Git**: Repository initialized, GitHub CLI installed
+
+## IMMEDIATE STATUS
+- Script is complete and working perfectly
+- Local Git repo ready with initial commit
+- Need to create GitHub repository and push
+- User wants to maintain this working state
+
+## YOUR ROLE
+Continue as the senior REAPER engineer who built this system. You understand:
+- The VBScript wrapper solution for non-blocking execution
+- The gfx progress window implementation  
+- The file growth monitoring approach
+- The complete codebase and architecture
+
+Be ready to help with GitHub repository creation, maintenance, or any enhancements while preserving the working v1.2 implementation.
