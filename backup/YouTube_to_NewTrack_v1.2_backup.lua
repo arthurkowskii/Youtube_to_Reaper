@@ -1,7 +1,5 @@
--- Audio → New Track v2.0 - Multi-Platform Support (YouTube + SoundCloud)
+-- YouTube → New Track v1.2 - Real-time Progress Bar
 -- Background download with live progress indication using defer + gfx
--- Supports: YouTube and SoundCloud URLs with platform detection
--- Features: Real-time progress, SoundCloud Go+ restriction warnings
 -- Requires: SWS Extension, yt-dlp.exe, ffmpeg.exe
 -- Compatible with REAPER 7.0+
 
@@ -11,11 +9,9 @@ local output_file = ""
 local start_time = 0
 local estimated_size = 5 * 1024 * 1024 -- Default 5MB estimate
 local url = ""
-local platform = ""
 local ytdlp_path = ""
 local ffmpeg_path = ""
 local progress_step = 0
-local restriction_warning = ""
 
 -- Validate SWS extension
 if not reaper.CF_GetClipboard then
@@ -30,59 +26,26 @@ if not clipboard or clipboard == "" then
     return
 end
 
--- Multi-platform URL detection function
-local function detect_platform_and_url(clipboard_content)
-    -- Clean clipboard content
-    local clean_content = clipboard_content:match("^%s*(.-)%s*$")
-    
-    -- Platform detection patterns
-    local platforms = {
-        {name = "YouTube", patterns = {"youtube%.com", "youtu%.be"}, 
-         extractors = {
-             "(https?://[%w%.%-_]*youtube[%w%.%-_/?=&]*)",
-             "(https?://youtu%.be/[%w%-_?=&]*)"
-         }},
-        {name = "SoundCloud", patterns = {"soundcloud%.com"}, 
-         extractors = {
-             "(https?://soundcloud%.com/[%w%.%-_/?=&]*)"
-         }}
-    }
-    
-    -- Find the most recent valid URL by scanning from end to beginning
-    local found_urls = {}
-    
-    for _, platform in ipairs(platforms) do
-        for _, pattern in ipairs(platform.patterns) do
-            if clean_content:match(pattern) then
-                for _, extractor in ipairs(platform.extractors) do
-                    local extracted_url = clean_content:match(extractor)
-                    if extracted_url then
-                        table.insert(found_urls, {platform = platform.name, url = extracted_url})
-                    end
-                end
-            end
-        end
-    end
-    
-    if #found_urls == 0 then
-        return nil, nil
-    end
-    
-    -- Return the last found URL (most recent)
-    local result = found_urls[#found_urls]
-    return result.platform, result.url
-end
-
--- Detect platform and extract URL
-local detected_platform, detected_url = detect_platform_and_url(clipboard)
-if not detected_platform then
-    reaper.ShowConsoleMsg("ERROR: Clipboard does not contain YouTube or SoundCloud URL\n")
+-- Validate YouTube URL
+local is_youtube = clipboard:match("youtube%.com") or clipboard:match("youtu%.be")
+if not is_youtube then
+    reaper.ShowConsoleMsg("ERROR: Clipboard does not contain YouTube URL\n")
     return
 end
 
-platform = detected_platform
-url = detected_url
-reaper.ShowConsoleMsg("✓ Found " .. platform .. " URL: " .. url .. "\n")
+-- Clean URL (remove extra whitespace and extract just the URL)
+url = clipboard:match("^%s*(.-)%s*$")
+
+-- Extract just the YouTube URL if there's extra text
+local youtube_url = url:match("(https?://[%w%.%-_]*youtube[%w%.%-_/?=&]*)")
+if not youtube_url then
+    youtube_url = url:match("(https?://youtu%.be/[%w%-_?=&]*)")
+end
+if youtube_url then
+    url = youtube_url
+end
+
+reaper.ShowConsoleMsg("✓ Found YouTube URL: " .. url .. "\n")
 
 -- Find yt-dlp executable
 local function find_executable(name)
@@ -143,15 +106,14 @@ output_file = temp_dir .. "\\youtube_audio_" .. os.time() .. ".wav"
 
 -- Create VBScript for truly asynchronous execution
 local vbs_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".vbs"
-local log_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".log"
-local cmd = string.format('"%s" -f bestaudio --extract-audio --audio-format wav --ffmpeg-location "%s" -o "%s" "%s" 2>&1',
+local cmd = string.format('"%s" -f bestaudio --extract-audio --audio-format wav --ffmpeg-location "%s" -o "%s" "%s"',
     ytdlp_path, ffmpeg_path, output_file, url)
 
--- Write VBScript that runs the command without blocking and captures output
+-- Write VBScript that runs the command without blocking
 local vbs_content = string.format([[
 Set WshShell = CreateObject("WScript.Shell")
-WshShell.Run "cmd /c %s > ""%s""", 0, False
-]], cmd:gsub('"', '""'), log_file) -- Escape quotes for VBScript
+WshShell.Run "%s", 0, False
+]], cmd:gsub('"', '""')) -- Escape quotes for VBScript
 
 local vbs = io.open(vbs_file, "w")
 if vbs then
@@ -192,31 +154,13 @@ local function monitor_progress()
         end
     end
     
-    -- Check log file for errors and restrictions
-    if reaper.file_exists(log_file) and restriction_warning == "" then
-        local log_handle = io.open(log_file, "r")
-        if log_handle then
-            local log_content = log_handle:read("*all")
-            log_handle:close()
-            
-            -- Check for SoundCloud Go+ restrictions
-            if platform == "SoundCloud" and (
-                log_content:match("preview") or 
-                log_content:match("Go%+") or
-                log_content:match("30") and log_content:match("second")
-            ) then
-                restriction_warning = "SoundCloud Go+ - Preview only (30s)"
-            end
-        end
-    end
-    
     local elapsed = reaper.time_precise() - start_time
     progress_step = progress_step + 1
     
-    -- Draw title with platform
+    -- Draw title
     gfx.set(1, 1, 1) -- White text
     gfx.x, gfx.y = 10, 10
-    gfx.drawstr("Downloading from " .. platform .. "...")
+    gfx.drawstr("YouTube Download in Progress...")
     
     -- Draw elapsed time
     gfx.x, gfx.y = 10, 30
@@ -254,13 +198,6 @@ local function monitor_progress()
         gfx.x, gfx.y = 10, 50
         local dots = string.rep(".", (progress_step % 10) + 1)
         gfx.drawstr("Initializing download" .. dots)
-    end
-    
-    -- Draw restriction warning if present
-    if restriction_warning ~= "" then
-        gfx.set(1, 0.7, 0.2) -- Orange warning color
-        gfx.x, gfx.y = 10, 105
-        gfx.drawstr("⚠️ " .. restriction_warning)
     end
     
     gfx.update()
@@ -313,11 +250,8 @@ function download_complete()
     gfx.drawstr("Download Complete! Importing to REAPER...")
     gfx.update()
     
-    -- Clean up VBScript and log files
+    -- Clean up VBScript file
     os.remove(vbs_file)
-    if reaper.file_exists(log_file) then
-        os.remove(log_file)
-    end
     
     -- Import the audio
     reaper.ShowConsoleMsg("✓ Download complete, importing to new track...\n")
@@ -359,9 +293,6 @@ function download_failed(reason)
     -- Clean up
     if reaper.file_exists(vbs_file) then
         os.remove(vbs_file)
-    end
-    if reaper.file_exists(log_file) then
-        os.remove(log_file)
     end
     if reaper.file_exists(output_file) then
         os.remove(output_file)
