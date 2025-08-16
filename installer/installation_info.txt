@@ -1,14 +1,14 @@
-YouTube to New Track for REAPER - Installation Information
+Audio to New Track for REAPER v2.0 - Installation Information
 
 WHAT THIS INSTALLER WILL DO:
 ==========================
 
 1. SCRIPT INSTALLATION
-   - Install the YouTube to New Track script to your REAPER Scripts directory
+   - Install the Audio to New Track script to your REAPER Scripts directory
    - The script will be available in REAPER's Action List
 
 2. DEPENDENCY MANAGEMENT (Optional)
-   - Download and install yt-dlp (YouTube downloader)
+   - Download and install yt-dlp (audio/video downloader)
    - Download and install FFmpeg (audio processing)
    - Both tools will be installed to the application directory
 
@@ -25,27 +25,31 @@ SYSTEM REQUIREMENTS:
 
 WHAT YOU'LL GET:
 ===============
-- Professional REAPER script for importing YouTube audio
+- Professional REAPER script for importing audio from multiple platforms
+- SUPPORTED PLATFORMS: YouTube and SoundCloud
 - Real-time progress monitoring during downloads
+- Platform-specific download optimization
 - Automatic temp file cleanup
 - Full integration with REAPER's undo system
 - Clipboard URL detection (requires SWS)
+- Silent operation with no console output
 
 AFTER INSTALLATION:
 ==================
 1. Open REAPER
 2. Go to Actions → Show Action List
-3. Search for "YouTube to New Track"
+3. Search for "Audio to New Track" or "YouTube"
 4. Assign a keyboard shortcut if desired
-5. Run the script and follow the prompts
+5. Copy a YouTube or SoundCloud URL to clipboard
+6. Run the script - it will automatically detect and download
 
 LEGAL NOTICE:
 ============
 This tool is for personal use only. Ensure you have permission to download
-content from YouTube or any other platform. Respect copyright laws and
-YouTube's Terms of Service.
+content from YouTube, SoundCloud, or any other platform. Respect copyright 
+laws and platform Terms of Service.
 
 For support and updates, visit:
 https://github.com/arthurkowskii/youtube_to_reaper
 
-Thank you for choosing YouTube to New Track!
+Thank you for choosing Audio to New Track!

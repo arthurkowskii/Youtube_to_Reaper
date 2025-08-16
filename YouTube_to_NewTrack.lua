@@ -19,14 +19,12 @@ local restriction_warning = ""
 
 -- Validate SWS extension
 if not reaper.CF_GetClipboard then
-    reaper.ShowConsoleMsg("ERROR: SWS extension required for clipboard access\n")
     return
 end
 
 -- Get clipboard content
 local clipboard = reaper.CF_GetClipboard()
 if not clipboard or clipboard == "" then
-    reaper.ShowConsoleMsg("ERROR: No content in clipboard\n")
     return
 end
 
@@ -76,13 +74,11 @@ end
 -- Detect platform and extract URL
 local detected_platform, detected_url = detect_platform_and_url(clipboard)
 if not detected_platform then
-    reaper.ShowConsoleMsg("ERROR: Clipboard does not contain YouTube or SoundCloud URL\n")
     return
 end
 
 platform = detected_platform
 url = detected_url
-reaper.ShowConsoleMsg("✓ Found " .. platform .. " URL: " .. url .. "\n")
 
 -- Find yt-dlp executable
 local function find_executable(name)
@@ -106,7 +102,8 @@ local function find_executable(name)
         end
     end
     
-    local test_cmd = 'where "' .. name .. '"'
+    -- Use silent where command with output redirection
+    local test_cmd = 'where "' .. name .. '" 2>nul'
     local result = reaper.ExecProcess(test_cmd, 5000)
     if result and result ~= "" and not result:match("Could not find") then
         local exe_path = result:match("^([^\r\n]+)")
@@ -119,17 +116,14 @@ local function find_executable(name)
 end
 
 -- Locate tools
-reaper.ShowConsoleMsg("✓ Locating download tools...\n")
 ytdlp_path = find_executable("yt-dlp.exe")
 ffmpeg_path = find_executable("ffmpeg.exe")
 
 if not ytdlp_path then
-    reaper.ShowConsoleMsg("ERROR: yt-dlp.exe not found\n")
     return
 end
 
 if not ffmpeg_path then
-    reaper.ShowConsoleMsg("ERROR: ffmpeg.exe not found\n")
     return
 end
 
@@ -139,15 +133,16 @@ gfx.setfont(1, "Arial", 14)
 
 -- Get temporary directory and create output filename  
 local temp_dir = os.getenv("TEMP") or os.getenv("TMP") or "C:\\temp"
-output_file = temp_dir .. "\\youtube_audio_" .. os.time() .. ".wav"
+local platform_lower = platform:lower()
+output_file = temp_dir .. "\\" .. platform_lower .. "_audio_" .. os.time() .. ".wav"
 
 -- Create VBScript for truly asynchronous execution
-local vbs_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".vbs"
-local log_file = temp_dir .. "\\youtube_download_" .. os.time() .. ".log"
+local vbs_file = temp_dir .. "\\" .. platform_lower .. "_download_" .. os.time() .. ".vbs"
+local log_file = temp_dir .. "\\" .. platform_lower .. "_download_" .. os.time() .. ".log"
 local cmd = string.format('"%s" -f bestaudio --extract-audio --audio-format wav --ffmpeg-location "%s" -o "%s" "%s"',
     ytdlp_path, ffmpeg_path, output_file, url)
 
--- Write VBScript that runs the command without blocking
+-- Write VBScript that runs the command completely hidden
 local vbs_content = string.format([[
 Set WshShell = CreateObject("WScript.Shell")
 WshShell.Run "%s", 0, False
@@ -158,17 +153,15 @@ if vbs then
     vbs:write(vbs_content)
     vbs:close()
 else
-    reaper.ShowConsoleMsg("ERROR: Cannot create VBScript file\n")
     return
 end
 
 -- Start background download
 start_time = reaper.time_precise()
 download_active = true
-reaper.ShowConsoleMsg("✓ Starting background download...\n")
 
--- Execute VBScript using start command to avoid blocking
-os.execute('start /B cscript //nologo "' .. vbs_file .. '"')
+-- Execute VBScript completely hidden using wscript
+os.execute('start /B wscript //nologo "' .. vbs_file .. '"')
 
 -- Progress monitoring function
 local function monitor_progress()
@@ -302,7 +295,6 @@ function download_complete()
     os.remove(vbs_file)
     
     -- Import the audio
-    reaper.ShowConsoleMsg("✓ Download complete, importing to new track...\n")
     
     reaper.Undo_BeginBlock2(0)
     reaper.PreventUIRefresh(1)
@@ -313,16 +305,12 @@ function download_complete()
     
     reaper.PreventUIRefresh(-1)
     reaper.UpdateArrange()
-    reaper.Undo_EndBlock2(0, "Import YouTube audio", -1)
+    reaper.Undo_EndBlock2(0, "Import " .. platform .. " audio", -1)
     
     -- Close progress window
     gfx.quit()
     
-    if insert_result > 0 then
-        reaper.ShowConsoleMsg("✓ SUCCESS: YouTube audio imported to new track!\n")
-    else
-        reaper.ShowConsoleMsg("✗ ERROR: Failed to import audio file\n")
-    end
+    -- Insert result check removed - silent operation
 end
 
 -- Download failure handler
@@ -336,7 +324,7 @@ function download_failed(reason)
     gfx.drawstr("Download Failed: " .. reason)
     gfx.update()
     
-    reaper.ShowConsoleMsg("✗ ERROR: " .. reason .. "\n")
+    -- Error logged to progress window only
     
     -- Clean up
     if reaper.file_exists(vbs_file) then

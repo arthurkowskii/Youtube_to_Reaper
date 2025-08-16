@@ -1,17 +1,17 @@
 [Setup]
-AppName=YouTube to New Track for REAPER
-AppVersion=1.2
+AppName=Audio to New Track for REAPER
+AppVersion=2.0
 AppPublisher=Arthur Kowski
 AppPublisherURL=https://github.com/arthurkowskii/youtube_to_reaper
 AppSupportURL=https://github.com/arthurkowskii/youtube_to_reaper/issues
 AppUpdatesURL=https://github.com/arthurkowskii/youtube_to_reaper/releases
-DefaultDirName={autopf}\YouTube to New Track
-DefaultGroupName=YouTube to New Track
+DefaultDirName={autopf}\Audio to New Track
+DefaultGroupName=Audio to New Track
 AllowNoIcons=yes
 LicenseFile=..\LICENSE
 InfoBeforeFile=installation_info.txt
 OutputDir=Output
-OutputBaseFilename=YouTube_to_NewTrack_Setup_v1.2
+OutputBaseFilename=Audio_to_NewTrack_Setup_v2.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -28,7 +28,7 @@ Name: "minimal"; Description: "Minimal installation (script only)"
 Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
-Name: "script"; Description: "YouTube to New Track script"; Types: full minimal custom; Flags: fixed
+Name: "script"; Description: "Audio to New Track script (YouTube + SoundCloud)"; Types: full minimal custom; Flags: fixed
 Name: "ytdlp"; Description: "yt-dlp (YouTube downloader)"; Types: full
 Name: "ffmpeg"; Description: "FFmpeg (audio/video processing)"; Types: full
 Name: "sws"; Description: "SWS Extension (if not already installed)"; Types: full
@@ -39,8 +39,8 @@ Source: "..\YouTube_to_NewTrack.lua"; DestDir: "{code:GetReaperScriptsDir}"; Fla
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion; Components: script
 
 [Icons]
-Name: "{group}\YouTube to New Track Documentation"; Filename: "{app}\README.md"
-Name: "{group}\Uninstall YouTube to New Track"; Filename: "{uninstallexe}"
+Name: "{group}\Audio to New Track Documentation"; Filename: "{app}\README.md"
+Name: "{group}\Uninstall Audio to New Track"; Filename: "{uninstallexe}"
 
 [Code]
 var
