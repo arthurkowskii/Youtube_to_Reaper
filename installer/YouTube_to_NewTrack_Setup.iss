@@ -1,17 +1,17 @@
 [Setup]
-AppName=Audio to New Track for REAPER
+AppName=YouTube to New Track for REAPER
 AppVersion=2.0
 AppPublisher=Arthur Kowski
 AppPublisherURL=https://github.com/arthurkowskii/youtube_to_reaper
 AppSupportURL=https://github.com/arthurkowskii/youtube_to_reaper/issues
 AppUpdatesURL=https://github.com/arthurkowskii/youtube_to_reaper/releases
-DefaultDirName={autopf}\Audio to New Track
-DefaultGroupName=Audio to New Track
+DefaultDirName={autopf}\YouTube to New Track
+DefaultGroupName=YouTube to New Track
 AllowNoIcons=yes
 LicenseFile=..\LICENSE
 InfoBeforeFile=installation_info.txt
 OutputDir=Output
-OutputBaseFilename=Audio_to_NewTrack_Setup_v2.0
+OutputBaseFilename=YouTube_to_NewTrack_Setup_v2.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -28,7 +28,7 @@ Name: "minimal"; Description: "Minimal installation (script only)"
 Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
-Name: "script"; Description: "Audio to New Track script (YouTube + SoundCloud)"; Types: full minimal custom; Flags: fixed
+Name: "script"; Description: "YouTube to New Track script (YouTube + SoundCloud)"; Types: full minimal custom; Flags: fixed
 Name: "ytdlp"; Description: "yt-dlp (YouTube downloader)"; Types: full
 Name: "ffmpeg"; Description: "FFmpeg (audio/video processing)"; Types: full
 Name: "sws"; Description: "SWS Extension (if not already installed)"; Types: full
@@ -40,10 +40,10 @@ Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion; Components: scri
 Source: "setup_instructions.txt"; DestDir: "{app}"; Flags: ignoreversion; Components: script
 
 [Icons]
-Name: "{group}\Audio to New Track Documentation"; Filename: "{app}\README.md"
+Name: "{group}\YouTube to New Track Documentation"; Filename: "{app}\README.md"
 Name: "{group}\Setup Instructions"; Filename: "{app}\setup_instructions.txt"
-Name: "{group}\Uninstall Audio to New Track"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\Audio to New Track Script"; Filename: "{code:GetReaperScriptsDir}\YouTube_to_NewTrack.lua"; IconFilename: "{sys}\shell32.dll"; IconIndex: 70
+Name: "{group}\Uninstall YouTube to New Track"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\YouTube to New Track Script"; Filename: "{code:GetReaperScriptsDir}\YouTube_to_NewTrack.lua"; IconFilename: "{sys}\shell32.dll"; IconIndex: 70
 
 [Code]
 var
@@ -181,7 +181,7 @@ begin
              '3. Click "New action..." → "Load ReaScript..."' + #13#10 +
              '4. Navigate to the script file using the desktop shortcut' + #13#10 +
              '5. Select "YouTube_to_NewTrack.lua" and click Open' + #13#10 + #13#10 +
-             'A shortcut has been placed on your desktop to help you find the script file quickly.';
+             'A "YouTube to New Track Script" shortcut has been placed on your desktop.';
   
   MsgBox(Message, mbInformation, MB_OK);
 end;
