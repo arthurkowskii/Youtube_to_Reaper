@@ -1,0 +1,42 @@
+YouTube to New Track v2.0 - macOS Installation
+==============================================
+
+INSTALLATION STEPS:
+1. Double-click "install_youtube_to_newtrack.sh" to run the installer
+2. Follow the on-screen instructions
+3. The installer will:
+   - Check for REAPER installation
+   - Verify SWS Extension (required for clipboard functionality)
+   - Install yt-dlp and ffmpeg via Homebrew (if available)
+   - Install the script to REAPER's Scripts directory
+   - Create a desktop alias for easy access
+
+MANUAL INSTALLATION (Alternative):
+If the automated installer doesn't work:
+1. Copy "YouTube_to_NewTrack.lua" to:
+   ~/Library/Application Support/REAPER/Scripts/
+2. Install dependencies manually:
+   - Install Homebrew: https://brew.sh/
+   - Run: brew install yt-dlp ffmpeg
+   - Install SWS Extension: https://www.sws-extension.org/
+
+ACTIVATING THE SCRIPT IN REAPER:
+1. Open REAPER
+2. Go to Actions → Show action list
+3. Click "New action..." → "Load ReaScript..."
+4. Navigate to the script and load it
+5. Assign a keyboard shortcut (recommended: Cmd+Shift+Y)
+
+USAGE:
+1. Copy a YouTube or SoundCloud URL to clipboard
+2. Run the script in REAPER
+3. Watch the download progress window
+4. Audio imports automatically as a new track
+
+REQUIREMENTS:
+- macOS 10.10 or later
+- REAPER 7.0+ (tested on 7.42)
+- SWS Extension (for clipboard functionality)
+- yt-dlp and ffmpeg (for audio downloading)
+
+For support: https://github.com/arthurkowskii/youtube_to_reaper

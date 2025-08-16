@@ -1,0 +1,34 @@
+YouTube to New Track v2.0 - macOS Distribution
+==================================================
+
+Package: YouTube_to_NewTrack_v2.0_macOS.dmg
+Created: Sat, Aug 16, 2025  3:37:45 PM
+Size: 
+
+Contents:
+- install_youtube_to_newtrack.sh (Main installer)
+- YouTube_to_NewTrack.lua (Main script)
+- uninstall.sh (Uninstaller)
+- Installation Instructions.txt (Setup guide)
+- README.md (Project documentation)
+- LICENSE (MIT License)
+
+Installation:
+1. Mount the DMG
+2. Run install_youtube_to_newtrack.sh
+3. Follow the on-screen instructions
+
+Requirements:
+- macOS 10.10 or later
+- REAPER 7.0+
+- SWS Extension (installer will check/prompt)
+- Homebrew (recommended for dependencies)
+
+The installer will automatically:
+- Detect REAPER installation
+- Check for SWS Extension
+- Install yt-dlp and ffmpeg via Homebrew
+- Copy script to REAPER Scripts directory
+- Create desktop alias
+
+For support: https://github.com/arthurkowskii/youtube_to_reaper
