@@ -37,10 +37,13 @@ Name: "sws"; Description: "SWS Extension (if not already installed)"; Types: ful
 ; Main script
 Source: "..\YouTube_to_NewTrack.lua"; DestDir: "{code:GetReaperScriptsDir}"; Flags: ignoreversion; Components: script
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion; Components: script
+Source: "setup_instructions.txt"; DestDir: "{app}"; Flags: ignoreversion; Components: script
 
 [Icons]
 Name: "{group}\Audio to New Track Documentation"; Filename: "{app}\README.md"
+Name: "{group}\Setup Instructions"; Filename: "{app}\setup_instructions.txt"
 Name: "{group}\Uninstall Audio to New Track"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\Audio to New Track Script"; Filename: "{code:GetReaperScriptsDir}\YouTube_to_NewTrack.lua"; IconFilename: "{sys}\shell32.dll"; IconIndex: 70
 
 [Code]
 var
@@ -64,14 +67,10 @@ begin
 end;
 
 function GetReaperScriptsDir(Param: String): String;
-var
-  ReaperDir: String;
 begin
-  ReaperDir := ReaperDirPage.Values[0];
-  if ReaperDir <> '' then
-    Result := ReaperDir + '\Scripts'
-  else
-    Result := ExpandConstant('{userappdata}\REAPER\Scripts');
+  // Scripts should always go to user's REAPER resource directory
+  // regardless of where REAPER is installed
+  Result := ExpandConstant('{userappdata}\REAPER\Scripts');
 end;
 
 function GetReaperResourceDir(Param: String): String;
@@ -114,12 +113,41 @@ function CheckSWSInstalled(): Boolean;
 var
   SWSPath: String;
 begin
-  SWSPath := GetReaperResourceDir('') + '\UserPlugins\reaper_sws64.dll';
+  // Check user REAPER resource directory first (most common location)
+  // Try all possible SWS DLL naming conventions
+  SWSPath := ExpandConstant('{userappdata}\REAPER\UserPlugins\reaper_sws-x64.dll');
   Result := FileExists(SWSPath);
   if not Result then
   begin
-    SWSPath := GetReaperResourceDir('') + '\UserPlugins\reaper_sws.dll';
+    SWSPath := ExpandConstant('{userappdata}\REAPER\UserPlugins\reaper_sws64.dll');
     Result := FileExists(SWSPath);
+  end;
+  if not Result then
+  begin
+    SWSPath := ExpandConstant('{userappdata}\REAPER\UserPlugins\reaper_sws.dll');
+    Result := FileExists(SWSPath);
+  end;
+  if not Result then
+  begin
+    SWSPath := ExpandConstant('{userappdata}\REAPER\UserPlugins\reaper_sws_x64.dll');
+    Result := FileExists(SWSPath);
+  end;
+  
+  // Also check REAPER installation directory as fallback
+  if not Result then
+  begin
+    SWSPath := GetReaperResourceDir('') + '\UserPlugins\reaper_sws-x64.dll';
+    Result := FileExists(SWSPath);
+    if not Result then
+    begin
+      SWSPath := GetReaperResourceDir('') + '\UserPlugins\reaper_sws64.dll';
+      Result := FileExists(SWSPath);
+      if not Result then
+      begin
+        SWSPath := GetReaperResourceDir('') + '\UserPlugins\reaper_sws.dll';
+        Result := FileExists(SWSPath);
+      end;
+    end;
   end;
 end;
 
@@ -140,6 +168,22 @@ var
 begin
   PowerShellCommand := Format('powershell -Command "Invoke-WebRequest -Uri ''%s'' -OutFile ''%s''"', [URL, FileName]);
   Exec('cmd.exe', '/c ' + PowerShellCommand, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+end;
+
+procedure ShowPostInstallInstructions();
+var
+  Message: String;
+begin
+  Message := 'Installation completed successfully!' + #13#10 + #13#10 +
+             'Everything is now installed. To add the script to your actions:' + #13#10 + #13#10 +
+             '1. Open REAPER' + #13#10 +
+             '2. Go to Actions → Show Action List' + #13#10 +
+             '3. Click "New action..." → "Load ReaScript..."' + #13#10 +
+             '4. Navigate to the script file using the desktop shortcut' + #13#10 +
+             '5. Select "YouTube_to_NewTrack.lua" and click Open' + #13#10 + #13#10 +
+             'A shortcut has been placed on your desktop to help you find the script file quickly.';
+  
+  MsgBox(Message, mbInformation, MB_OK);
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -183,6 +227,9 @@ begin
     end;
     
     WizardForm.StatusLabel.Caption := 'Installation completed successfully!';
+    
+    // Show post-installation instructions
+    ShowPostInstallInstructions();
   end;
 end;
 

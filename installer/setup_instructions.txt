@@ -1,0 +1,45 @@
+Audio to New Track - Setup Instructions
+=====================================
+
+Congratulations! Audio to New Track has been installed successfully.
+
+NEXT STEPS TO ACTIVATE THE SCRIPT:
+==================================
+
+1. OPEN REAPER
+   - Launch REAPER from your desktop or start menu
+
+2. OPEN ACTION LIST
+   - Go to Actions → Show Action List
+   - OR press the "?" key (question mark)
+
+3. FIND THE SCRIPT
+   - In the filter box at the top, type: YouTube
+   - OR type: Audio
+   - Look for: "Script: YouTube_to_NewTrack.lua"
+
+4. ADD TO ACTION LIST
+   - Double-click on "Script: YouTube_to_NewTrack.lua"
+   - The script will be loaded and appear in your action list
+
+5. ASSIGN SHORTCUT (Optional)
+   - Select the script in the action list
+   - Click "Add..." to assign a keyboard shortcut
+   - Recommended: Ctrl+Shift+Y
+
+6. TEST THE SCRIPT
+   - Copy a YouTube or SoundCloud URL to clipboard
+   - Run the script (use your shortcut or find it in action list)
+   - Watch the download progress window
+
+TROUBLESHOOTING:
+===============
+
+If the script doesn't appear:
+- Make sure REAPER is completely closed before installation
+- Restart REAPER after installation
+- Check that the file exists: %APPDATA%\REAPER\Scripts\YouTube_to_NewTrack.lua
+
+For support: https://github.com/arthurkowskii/youtube_to_reaper
+
+Thank you for using Audio to New Track!
