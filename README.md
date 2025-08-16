@@ -1,16 +1,23 @@
-# YouTube → New Track
+# Audio → New Track
 
-A REAPER ReaScript that downloads audio from YouTube URLs and imports them directly as new tracks with real-time progress indication.
+A REAPER ReaScript that downloads audio from multiple platforms and imports them directly as new tracks with real-time progress indication.
+
+## Supported Platforms
+
+- 🎥 **YouTube** - Videos, playlists, and live streams
+- 🎵 **SoundCloud** - Tracks and playlists
 
 ## Features
 
-- 📋 **Clipboard Integration**: Automatically reads YouTube URLs from clipboard
+- 📋 **Smart URL Detection**: Automatically detects YouTube and SoundCloud URLs from clipboard
 - 🎯 **Real-time Progress Bar**: Live progress window showing download status
 - 📊 **File Size Tracking**: Shows downloaded MB and estimated progress
 - ⏱️ **Live Timer**: Displays elapsed time during download
 - 🔄 **Non-blocking**: REAPER remains responsive during download
 - ✅ **Automatic Import**: Creates new track and imports audio when complete
 - 🧹 **Auto-cleanup**: Removes temporary files after import
+- 🔇 **Silent Operation**: No console output or command prompt windows
+- 🏷️ **Platform-aware**: Shows which platform you're downloading from
 
 ## Requirements
 
@@ -19,7 +26,7 @@ A REAPER ReaScript that downloads audio from YouTube URLs and imports them direc
 ## Installation
 
 ### For Windows Users (Recommended)
-1. Download and run `YouTube_to_NewTrack_Setup.exe` from the releases
+1. Download and run `Audio_to_NewTrack_Setup_v2.0.exe` from the [releases page](https://github.com/arthurkowskii/youtube_to_reaper/releases)
    - Automatically installs yt-dlp and ffmpeg dependencies
    - Installs the ReaScript in REAPER
    - Checks for and prompts to install SWS Extension if needed
@@ -34,32 +41,35 @@ For advanced users or other platforms:
 
 ## Usage
 
-1. Copy a YouTube URL to your clipboard
-2. Run the script in REAPER
-3. Watch the progress window while download happens
+1. Copy a YouTube or SoundCloud URL to your clipboard
+2. Run the "Audio to New Track" script in REAPER (find it in Actions → Show Action List)
+3. Watch the platform-aware progress window while download happens
 4. Audio automatically imports as a new track when complete
 
 ## Version History
 
+- **v2.0** - Multi-platform support (YouTube + SoundCloud), silent operation, platform-specific features
 - **v1.2** - Real-time progress bar with live updates
 - **v1.1 Beta A** - Enhanced console feedback  
-- **v1.0** - Basic working version (backed up in `/backup/`)
+- **v1.0** - Basic working version
 
 ## Files
 
-- `YouTube_to_NewTrack.lua` - Main script (v1.2)
-- `YouTube_beta_A.lua` - Beta version with enhanced console feedback
-- `YouTube_progress.lua` - Development version of progress implementation
-- `backup/YouTube_to_NewTrack_working.lua` - Backup of v1.0
-- `reaper_docs/` - REAPER API documentation and references
+- `YouTube_to_NewTrack.lua` - Main script (v2.0)
+- `installer/` - Windows installer and setup files
+- `LICENSE` - MIT License
+- `README.md` - This documentation
 
 ## Technical Details
 
-- Uses VBScript wrapper for truly asynchronous download execution
-- Monitors file growth in real-time via `reaper.defer()` loops  
-- Progress estimation based on downloaded file size
-- Automatic tool detection for winget installations
-- Proper REAPER undo/redo integration
+- **Multi-platform URL detection** - Automatically identifies YouTube and SoundCloud URLs
+- **VBScript wrapper** for truly asynchronous download execution
+- **Hidden execution** - No command prompt windows or console output
+- **Real-time monitoring** - File growth tracking via `reaper.defer()` loops  
+- **Platform-specific optimization** - Different download strategies per platform
+- **Smart file naming** - Platform-aware temporary file naming
+- **Automatic tool detection** - Finds yt-dlp and ffmpeg from winget installations
+- **Proper REAPER integration** - Full undo/redo support with platform-specific naming
 
 ## License
 
