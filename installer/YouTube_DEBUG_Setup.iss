@@ -23,11 +23,15 @@ ArchitecturesInstallIn64BitMode=x64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Types]
-Name: "debug"; Description: "Debug installation (replaces existing script with debug version)"
+Name: "full"; Description: "Full debug installation (includes all dependencies)"
+Name: "minimal"; Description: "Debug script only"
 Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
-Name: "script"; Description: "YouTube to New Track DEBUG script (with detailed logging)"; Types: debug custom; Flags: fixed
+Name: "script"; Description: "YouTube to New Track DEBUG script (with detailed logging)"; Types: full minimal custom; Flags: fixed
+Name: "ytdlp"; Description: "yt-dlp (YouTube downloader)"; Types: full
+Name: "ffmpeg"; Description: "FFmpeg (audio/video processing)"; Types: full
+Name: "sws"; Description: "SWS Extension (if not already installed)"; Types: full
 
 [Files]
 ; Debug script - this will overwrite the existing script
@@ -184,10 +188,55 @@ begin
   Result := FileExists(ExistingScript);
 end;
 
+procedure DownloadFile(const URL, FileName: String);
+var
+  ResultCode: Integer;
+  PowerShellCommand: String;
+begin
+  PowerShellCommand := Format('powershell -Command "Invoke-WebRequest -Uri ''%s'' -OutFile ''%s''"', [URL, FileName]);
+  Exec('cmd.exe', '/c ' + PowerShellCommand, '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
+var
+  ToolsDir: String;
+  YtDlpUrl, FFmpegUrl: String;
+  ResultCode: Integer;
 begin
   if CurStep = ssPostInstall then
   begin
+    ToolsDir := ExpandConstant('{app}\tools');
+    
+    // Download yt-dlp if selected
+    if IsComponentSelected('ytdlp') then
+    begin
+      WizardForm.StatusLabel.Caption := 'Downloading yt-dlp...';
+      YtDlpUrl := 'https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe';
+      DownloadFile(YtDlpUrl, ToolsDir + '\yt-dlp.exe');
+    end;
+    
+    // Download FFmpeg if selected
+    if IsComponentSelected('ffmpeg') then
+    begin
+      WizardForm.StatusLabel.Caption := 'Downloading FFmpeg...';
+      FFmpegUrl := 'https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip';
+      DownloadFile(FFmpegUrl, ToolsDir + '\ffmpeg.zip');
+      
+      // Extract FFmpeg
+      WizardForm.StatusLabel.Caption := 'Extracting FFmpeg...';
+      Exec('powershell', '-Command "Expand-Archive -Path ''' + ToolsDir + '\ffmpeg.zip'' -DestinationPath ''' + ToolsDir + ''' -Force"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+    end;
+    
+    // Check SWS and prompt if needed
+    if IsComponentSelected('sws') and not CheckSWSInstalled() then
+    begin
+      if MsgBox('SWS Extension is not installed. SWS is required for clipboard functionality. Would you like to download it now?', mbConfirmation, MB_YESNO) = IDYES then
+      begin
+        WizardForm.StatusLabel.Caption := 'Opening SWS download page...';
+        ShellExec('open', 'https://www.sws-extension.org/', '', '', SW_SHOWNORMAL, ewNoWait, ResultCode);
+      end;
+    end;
+    
     // Check if we found and replaced an existing script
     if CheckForExistingScript() then
     begin
