@@ -1,0 +1,53 @@
+YouTube to New Track - DEBUG VERSION - Setup Instructions
+
+=== DEBUG VERSION INSTALLED ===
+
+Your original YouTube_to_NewTrack.lua script has been REPLACED with a debug version.
+
+HOW TO USE FOR TROUBLESHOOTING:
+
+1. COPY A URL
+   • Copy a YouTube or SoundCloud URL to your clipboard first
+
+2. RUN THE DEBUG SCRIPT
+   • Open REAPER
+   • Go to: Actions → Show Action List
+   • Find "YouTube_to_NewTrack" (same name as before)
+   • Double-click to run it
+
+3. WATCH FOR MESSAGES
+   • The debug version will show POPUP ERROR MESSAGES if something fails
+   • Don't dismiss them quickly - read what they say!
+   • Take screenshots of any error messages
+
+4. CHECK THE CONSOLE LOG
+   • In REAPER: Extensions → ReaScript → Show Console
+   • The debug script logs every step it takes
+   • Copy ALL the text from the console
+
+5. SEND BACK THE INFORMATION
+   Send back:
+   • Screenshots of any error popup messages
+   • Complete text from the REAPER Console
+   • This will help identify exactly where the script is failing
+
+=== WHAT THE DEBUG VERSION CHECKS ===
+
+The debug script will test and report on:
+• SWS Extension detection
+• Clipboard content reading
+• URL pattern matching (YouTube/SoundCloud)
+• yt-dlp.exe location and accessibility
+• ffmpeg.exe location and accessibility
+• File write permissions in temp directory
+• VBScript creation and execution
+• Download progress monitoring
+
+If ANY of these steps fail, you'll see exactly which one and why.
+
+=== TO RESTORE ORIGINAL VERSION ===
+
+Run the original installer again to replace the debug version with the normal script.
+
+Questions or issues? Report at:
+https://github.com/arthurkowskii/youtube_to_reaper/issues

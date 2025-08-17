@@ -1,0 +1,29 @@
+YouTube to New Track - DEBUG VERSION INSTALLER
+
+IMPORTANT: This is a DIAGNOSTIC VERSION
+
+This installer will:
+• REPLACE your existing YouTube_to_NewTrack.lua script with a DEBUG version
+• The debug version shows detailed error messages and logs every step
+• Use this to troubleshoot problems with the script not working
+
+What the debug version does:
+• Shows popup messages if something fails (instead of silently failing)
+• Logs detailed information to REAPER Console
+• Shows exactly where the script stops working
+• Displays file paths being checked for yt-dlp and ffmpeg
+• Tests file permissions and tool detection
+
+After installation:
+1. Copy a YouTube URL to clipboard
+2. Run the script in REAPER (same way as before)
+3. Watch for any ERROR POPUP MESSAGES
+4. Check REAPER Console (Extensions → ReaScript → Show Console)
+5. Send back screenshots + console text to help diagnose the issue
+
+Requirements (same as regular version):
+• REAPER 7.0+
+• SWS Extension
+• yt-dlp and ffmpeg (can be installed automatically)
+
+This debug version will help identify exactly why the script isn't working on your system.
